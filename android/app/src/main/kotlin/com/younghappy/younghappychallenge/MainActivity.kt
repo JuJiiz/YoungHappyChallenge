@@ -1,0 +1,6 @@
+package com.younghappy.younghappychallenge
+
+import io.flutter.embedding.android.FlutterActivity
+
+class MainActivity: FlutterActivity() {
+}

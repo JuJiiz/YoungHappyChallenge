@@ -1,0 +1,187 @@
+{
+  "project_info": {
+    "project_number": "599840094227",
+    "firebase_url": "https://new-younghappy-staff-test.firebaseio.com",
+    "project_id": "new-younghappy-staff-test",
+    "storage_bucket": "new-younghappy-staff-test.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:599840094227:android:3afe891e2771b29eb367e6",
+        "android_client_info": {
+          "package_name": "com.younghappy.younghappychallenge"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "599840094227-8ik7u5lsifer0om8jveecm28lldcepup.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAeddZCaKi82p4ZEvc1GSZEly6Z2t3ILHo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "599840094227-8ik7u5lsifer0om8jveecm28lldcepup.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "599840094227-6aafs2heo099f9s6qaoelaf4eacqauvc.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.ios.younghappy.YoungHappy"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:599840094227:android:df7dde7046ff3310b367e6",
+        "android_client_info": {
+          "package_name": "com.younghappy.younghappyoa"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "599840094227-v26dmfq6gp5dkvsme5l2p6mikl4omen9.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.younghappy.younghappyoa",
+            "certificate_hash": "47f2f06313b1643cc28ebb72f6537bf52ce568ce"
+          }
+        },
+        {
+          "client_id": "599840094227-8ik7u5lsifer0om8jveecm28lldcepup.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAeddZCaKi82p4ZEvc1GSZEly6Z2t3ILHo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "599840094227-8ik7u5lsifer0om8jveecm28lldcepup.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "599840094227-6aafs2heo099f9s6qaoelaf4eacqauvc.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.ios.younghappy.YoungHappy"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:599840094227:android:f1694f2a71419b49b367e6",
+        "android_client_info": {
+          "package_name": "org.younghappy.android"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "599840094227-4a1pf77pjsdv3i1o829r0hrq01h6aqv7.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "org.younghappy.android",
+            "certificate_hash": "3cde4f52514d033d7f0730a386e8562baa1a00c8"
+          }
+        },
+        {
+          "client_id": "599840094227-ch1n48btmg5jh95mg429n1us4qcqri45.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "org.younghappy.android",
+            "certificate_hash": "a7add66e80a8b01d3743a818f1a5a302b49158f9"
+          }
+        },
+        {
+          "client_id": "599840094227-e45a6nk3j8lu2eva9qndtk763i1jsui4.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "org.younghappy.android",
+            "certificate_hash": "47f2f06313b1643cc28ebb72f6537bf52ce568ce"
+          }
+        },
+        {
+          "client_id": "599840094227-8ik7u5lsifer0om8jveecm28lldcepup.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAeddZCaKi82p4ZEvc1GSZEly6Z2t3ILHo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "599840094227-8ik7u5lsifer0om8jveecm28lldcepup.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "599840094227-6aafs2heo099f9s6qaoelaf4eacqauvc.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.ios.younghappy.YoungHappy"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:599840094227:android:f8d42ad00bb5961db367e6",
+        "android_client_info": {
+          "package_name": "org.younghappy.younghappyoa"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "599840094227-8ik7u5lsifer0om8jveecm28lldcepup.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAeddZCaKi82p4ZEvc1GSZEly6Z2t3ILHo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "599840094227-8ik7u5lsifer0om8jveecm28lldcepup.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "599840094227-6aafs2heo099f9s6qaoelaf4eacqauvc.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.ios.younghappy.YoungHappy"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
