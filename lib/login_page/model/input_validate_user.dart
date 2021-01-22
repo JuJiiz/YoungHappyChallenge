@@ -1,10 +1,10 @@
-class InputSendOTP {
+class InputValidateUser {
   final String phoneNumber;
   final String callingCode;
 
-  const InputSendOTP(this.phoneNumber, this.callingCode);
+  const InputValidateUser(this.phoneNumber, this.callingCode);
 
-  Map<String, dynamic> toMap() => {
+  Map<String, String> toMap() => {
         "phone_number": phoneNumber,
         "country_code": callingCode,
       };

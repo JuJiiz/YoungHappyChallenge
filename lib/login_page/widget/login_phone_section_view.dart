@@ -1,9 +1,8 @@
-import 'dart:developer';
-
 import 'package:country_calling_code_picker/picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:rxdart/rxdart.dart';
+import 'package:younghappychallenge/core/constants.dart';
 
 class LoginPhoneSectionView extends StatefulWidget {
   final Function(String callingCode, String phoneNumber) onSendOTP;
@@ -45,27 +44,23 @@ class _LoginPhoneSectionViewState extends State<LoginPhoneSectionView> {
   }
 
   _onSendOTP() async {
-    log('DING!!!');
     Rx.combineLatest2(_selectedCountry, _phoneNumber,
-            (Country country, String phone) {
-              log('calling : ${country.callingCode} || phone: $phone');
-
-              return {country.callingCode, phone};
-            })
-        .listen((input) => widget.onSendOTP(input.first, input.last));
+        (Country country, String phone) {
+      return {country.callingCode, phone};
+    }).listen((input) => widget.onSendOTP(input.first, input.last));
   }
 
   @override
   Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.all(16.0),
-      constraints: BoxConstraints(maxWidth: 320),
+      constraints: BoxConstraints(maxWidth: view_width),
       child: Column(
         children: [
           Row(
             children: [
               Container(
-                height: 50,
+                height: view_height,
                 child: InkWell(
                   child: StreamBuilder(
                     stream: _selectedCountry,
@@ -111,10 +106,10 @@ class _LoginPhoneSectionViewState extends State<LoginPhoneSectionView> {
                   onTap: () => _onSelectCallingCode(),
                 ),
               ),
-              SizedBox(width: 8.0),
+              SizedBox(height: 8.0),
               Expanded(
                 child: Container(
-                  height: 50,
+                  height: view_height,
                   alignment: Alignment.centerLeft,
                   child: TextField(
                     onChanged: _phoneNumber.sink.add,
@@ -138,6 +133,7 @@ class _LoginPhoneSectionViewState extends State<LoginPhoneSectionView> {
               ),
             ],
           ),
+          SizedBox(height: 8.0),
           ElevatedButton(
             child: Text('Send OTP'),
             onPressed: () => _onSendOTP(),

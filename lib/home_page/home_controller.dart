@@ -14,26 +14,20 @@ class HomeController extends BaseController {
 
   Stream<String> get builderNameStream => _builderNameStreamController.stream;
 
-  StreamController isLoadingController = StreamController<bool>();
-
   getBuilderName() async {
-    isLoadingController.sink.add(true);
     Result<String> result = await _testingRepository.requestBuilderName();
     if (result is Success<String>) {
       _builderNameStreamController.sink.add(result.data);
     }
-    isLoadingController.sink.add(false);
   }
 
   @override
   init() {
-    isLoading = isLoadingController.stream;
     getBuilderName();
   }
 
   @override
   dispose() {
-    isLoadingController.close();
     _builderNameStreamController.close();
   }
 }

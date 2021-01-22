@@ -1,18 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:younghappychallenge/core/base/base_view_event.dart';
 
 class BaseUI extends StatelessWidget {
-  final Stream<bool> isLoading;
+  final Stream<BaseViewEvent> viewState;
+  final Function(BaseViewEvent) onSetViewState;
   final Widget Function(BuildContext context) child;
   final double opacity;
   final Color color;
   final Widget progressIndicator;
-  final String waitingText;
   final Offset offset;
   final bool dismissible;
 
   const BaseUI({
     Key key,
-    @required this.isLoading,
+    @required this.viewState,
+    @required this.onSetViewState,
     @required this.child,
     this.opacity = 0.4,
     this.color = const Color(0xff757575),
@@ -20,7 +22,6 @@ class BaseUI extends StatelessWidget {
       backgroundColor: Colors.white,
       valueColor: AlwaysStoppedAnimation<Color>(const Color(0xFF9CCC65)),
     ),
-    this.waitingText,
     this.offset,
     this.dismissible = false,
   })  : assert(child != null),
@@ -32,10 +33,10 @@ class BaseUI extends StatelessWidget {
       children: <Widget>[
         this.child(context),
         StreamBuilder(
-          stream: isLoading,
+          stream: viewState,
           builder: (context, data) {
-            var loading = data.data ?? false;
-            if (loading) {
+            final BaseViewEvent viewState = data.data ?? NormalViewState();
+            if (viewState is OperatingViewState) {
               return Stack(
                 children: [
                   Opacity(
@@ -46,7 +47,23 @@ class BaseUI extends StatelessWidget {
                     offset: offset,
                     loadingDialog: _LoadingDialog(
                       progressIndicator: progressIndicator,
-                      waitingText: waitingText,
+                      waitingText: viewState.message,
+                    ),
+                  ),
+                ],
+              );
+            } else if (viewState is ErrorViewState) {
+              return Stack(
+                children: [
+                  Opacity(
+                    child: ModalBarrier(dismissible: dismissible, color: color),
+                    opacity: opacity,
+                  ),
+                  _ProgressIndicator(
+                    offset: offset,
+                    loadingDialog: _ErrorDialog(
+                      errorMessage: viewState.message,
+                      onCloseDialog: () => onSetViewState(NormalViewState()),
                     ),
                   ),
                 ],
@@ -73,7 +90,7 @@ class _ProgressIndicator extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (offset != null) {
+    if (offset == null) {
       return Padding(
         padding: EdgeInsets.all(20.0),
         child: Align(
@@ -131,6 +148,64 @@ class _LoadingDialog extends StatelessWidget {
               child: new Text(
                 waitingText,
                 style: Theme.of(context).textTheme.headline6,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _ErrorDialog extends StatelessWidget {
+  final String errorMessage;
+  final Function() onCloseDialog;
+
+  const _ErrorDialog({
+    Key key,
+    this.errorMessage = 'Something went wrong!',
+    @required this.onCloseDialog,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: new BoxDecoration(
+        color: Colors.white,
+        borderRadius: new BorderRadius.circular(10.0),
+      ),
+      width: 300.0,
+      height: 200.0,
+      alignment: AlignmentDirectional.center,
+      child: new Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          new Center(
+            child: new SizedBox(
+              height: 50.0,
+              width: 50.0,
+              child: Icon(
+                Icons.error_outline,
+                color: Colors.red,
+              ),
+            ),
+          ),
+          new Container(
+            margin: const EdgeInsets.only(top: 25.0),
+            child: new Center(
+              child: new Text(
+                errorMessage,
+                style: Theme.of(context).textTheme.headline6,
+              ),
+            ),
+          ),
+          new Container(
+            margin: const EdgeInsets.only(top: 25.0),
+            child: new Center(
+              child: ElevatedButton(
+                child: Text('ปิด'),
+                onPressed: onCloseDialog,
               ),
             ),
           ),

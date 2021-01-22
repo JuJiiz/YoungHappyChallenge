@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:younghappychallenge/core/base/base_controller.dart';
 import 'package:younghappychallenge/core/base/base_ui.dart';
+import 'package:younghappychallenge/core/base/base_view_event.dart';
 import 'package:younghappychallenge/core/base/life_cycle_listener.dart';
 
 abstract class BasePage<T extends BaseController> extends StatefulWidget
@@ -8,16 +9,14 @@ abstract class BasePage<T extends BaseController> extends StatefulWidget
   final BuildContext context;
   final T controller;
 
-  const BasePage(
-    this.context,
-    this.controller, {
-    Key key,
-  }) : super(key: key);
+  const BasePage(this.context, this.controller, {Key key})
+      : super(key: key);
 
   Widget initUI(BuildContext context);
 
   @override
-  State<StatefulWidget> createState() => _BasePageState(
+  State<StatefulWidget> createState() =>
+      _BasePageState(
         initUI,
         controller,
         this,
@@ -29,10 +28,7 @@ class _BasePageState extends State<BasePage> with WidgetsBindingObserver {
   final Widget Function(BuildContext context) _initUI;
   final LifeCycleListener _lifeCycleListener;
 
-  _BasePageState(initUI, controller, lifeCycleListener)
-      : _initUI = initUI,
-        _controller = controller,
-        _lifeCycleListener = lifeCycleListener;
+  _BasePageState(this._initUI, this._controller, this._lifeCycleListener);
 
   @override
   void initState() {
@@ -71,6 +67,8 @@ class _BasePageState extends State<BasePage> with WidgetsBindingObserver {
 
   @override
   Widget build(BuildContext context) {
-    return BaseUI(isLoading: _controller.isLoading, child: _initUI);
+    return BaseUI(viewState: _controller.viewState,
+        onSetViewState: _controller.setViewState,
+        child: _initUI);
   }
 }

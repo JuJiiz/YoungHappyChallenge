@@ -2,10 +2,11 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:rxdart/rxdart.dart';
-import 'package:younghappychallenge/authentication/user_session.dart';
 import 'package:younghappychallenge/core/base/base_page.dart';
 import 'package:younghappychallenge/home_page/home.dart';
 import 'package:younghappychallenge/login_page/login.dart';
+import 'package:younghappychallenge/register_page/register.dart';
+import 'package:younghappychallenge/splash_screen/splash_checking_result.dart';
 import 'package:younghappychallenge/splash_screen/splash_screen.dart';
 
 // ignore: must_be_immutable
@@ -23,11 +24,23 @@ class SplashScreenPage extends BasePage<SplashScreenController> {
 
     _subscription = controller.sessionStream
         .throttleTime(Duration(milliseconds: 3000))
-        .listen((UserSession session) {
-      if (session is SessionFound) {
-        Navigator.of(context).pushReplacementNamed(HomePage.routeName);
-      } else {
-        Navigator.of(context).pushReplacementNamed(LoginPage.routeName);
+        .listen((SplashCheckingResult result) {
+      switch (result) {
+        case SplashCheckingResult.SessionNotFound:
+          {
+            Navigator.of(context).pushReplacementNamed(LoginPage.routeName);
+            break;
+          }
+        case SplashCheckingResult.UserNotSatisfied:
+          {
+            Navigator.of(context).pushReplacementNamed(RegisterPage.routeName);
+            break;
+          }
+        case SplashCheckingResult.AllPass:
+          {
+            Navigator.of(context).pushReplacementNamed(HomePage.routeName);
+            break;
+          }
       }
     });
   }

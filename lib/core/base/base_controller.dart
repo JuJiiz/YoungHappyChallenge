@@ -1,9 +1,17 @@
-import 'dart:async';
+import 'package:rxdart/rxdart.dart';
+import 'package:younghappychallenge/core/base/base_view_event.dart';
 
 abstract class BaseController {
-  Stream<bool> isLoading;
+  BehaviorSubject<BaseViewEvent> viewState =
+      BehaviorSubject.seeded(NormalViewState());
 
-  init();
+  setViewState(BaseViewEvent viewEvent) {
+    viewState.sink.add(viewEvent);
+  }
 
-  dispose();
+  init() {}
+
+  dispose() {
+    viewState.close();
+  }
 }
