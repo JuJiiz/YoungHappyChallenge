@@ -28,6 +28,7 @@ class LoginPage extends BasePage<LoginController> {
           } else {
             Navigator.of(context).pushReplacementNamed(HomePage.routeName);
           }
+          controller.setViewState(NormalViewState());
         }
       })
     ];

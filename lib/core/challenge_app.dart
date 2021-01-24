@@ -37,7 +37,10 @@ class ChallengeApp extends StatelessWidget {
             ),
         RegisterPage.routeName: (context) => RegisterPage(
               context,
-              RegisterController(Provider.of<AddressRepository>(context)),
+              RegisterController(
+                Provider.of<AddressRepository>(context),
+                Provider.of<UserRepository>(context),
+              ),
             ),
       },
     );

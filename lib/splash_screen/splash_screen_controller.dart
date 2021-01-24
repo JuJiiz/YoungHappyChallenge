@@ -5,8 +5,8 @@ import 'package:younghappychallenge/core/base/base_controller.dart';
 import 'package:younghappychallenge/core/base/base_view_event.dart';
 import 'package:younghappychallenge/core/result.dart';
 import 'package:younghappychallenge/splash_screen/splash_checking_result.dart';
+import 'package:younghappychallenge/user/extension/user_satisfy_field.dart';
 import 'package:younghappychallenge/user/model/response_my_profile.dart';
-import 'package:younghappychallenge/user/model/user_entity.dart';
 import 'package:younghappychallenge/user/user_repository.dart';
 
 class SplashScreenController extends BaseController {
@@ -25,7 +25,7 @@ class SplashScreenController extends BaseController {
       final Result<ResponseMyProfile> result =
           await _userRepository.requestMyProfile();
       if (result is Success<ResponseMyProfile>) {
-        if (_checkUserIsSatisfied(result.data.user)) {
+        if (UserChecker(result.data.user).isUserSatisfied()) {
           sessionStream.sink.add(SplashCheckingResult.AllPass);
         } else {
           sessionStream.sink.add(SplashCheckingResult.UserNotSatisfied);
@@ -37,13 +37,6 @@ class SplashScreenController extends BaseController {
     } else {
       sessionStream.sink.add(SplashCheckingResult.SessionNotFound);
     }
-  }
-
-  bool _checkUserIsSatisfied(UserEntity user) {
-    final isDisplayNameSatisfy =
-        user.displayName != null && user.displayName.isNotEmpty;
-
-    return isDisplayNameSatisfy;
   }
 
   @override

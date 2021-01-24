@@ -1,5 +1,7 @@
 import 'dart:typed_data';
 
+import 'package:universal_html/html.dart' as html;
+
 abstract class ProfileImageModel {}
 
 class ProfileMobileImageModel implements ProfileImageModel {
@@ -9,7 +11,8 @@ class ProfileMobileImageModel implements ProfileImageModel {
 }
 
 class ProfileWebImageModel implements ProfileImageModel {
+  final html.File file;
   final Uint8List data;
 
-  const ProfileWebImageModel(this.data);
+  const ProfileWebImageModel(this.file, this.data);
 }

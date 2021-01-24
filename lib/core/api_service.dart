@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:meta/meta.dart';
+import 'package:younghappychallenge/community/community_config.dart';
 import 'package:younghappychallenge/core/base/base_remote_response.dart';
 import 'package:younghappychallenge/core/constants.dart';
 import 'package:younghappychallenge/core/network_utils.dart';
@@ -8,6 +9,7 @@ import 'package:younghappychallenge/core/result.dart';
 import 'package:younghappychallenge/login_page/model/input_send_otp.dart';
 import 'package:younghappychallenge/login_page/model/input_validate_user.dart';
 import 'package:younghappychallenge/login_page/model/input_verify_otp.dart';
+import 'package:younghappychallenge/user/model/request_register_user.dart';
 
 class APIService {
   final String _endpoint;
@@ -87,13 +89,39 @@ class APIService {
   }
 
   Future<BaseRemoteResponse> requestMyProfile(String token) async {
-    final url = Uri.https(_endpoint, 'user/my-profile', {'community_id': '1'});
+    final mockingCommunityID = DefaultCommunity().communityID;
+
+    final url = Uri.https(
+      _endpoint,
+      'user/my-profile',
+      {'community_id': '$mockingCommunityID'},
+    );
 
     final response = await NetworkUtils.get(
       url,
       headers: {
         'Authorization': 'Bearer $token',
       },
+    );
+
+    return response;
+  }
+
+  Future<BaseRemoteResponse> requestRegisterUser(
+    String token,
+    RequestRegisterUser request,
+  ) async {
+    final url = Uri.https(
+      _endpoint,
+      'user/update',
+    );
+
+    final response = await NetworkUtils.put(
+      url,
+      headers: {
+        'Authorization': 'Bearer $token',
+      },
+      body: request.toJson(),
     );
 
     return response;

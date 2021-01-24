@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:io' as io;
 import 'dart:typed_data';
@@ -13,10 +14,14 @@ import 'package:younghappychallenge/address/country_entity.dart';
 import 'package:younghappychallenge/core/base/base_page.dart';
 import 'package:younghappychallenge/core/base/base_view_event.dart';
 import 'package:younghappychallenge/core/constants.dart';
+import 'package:younghappychallenge/home_page/home.dart';
+import 'package:younghappychallenge/register_page/extension/register_checker.dart';
 import 'package:younghappychallenge/register_page/model/birth_date_select_model.dart';
 import 'package:younghappychallenge/register_page/model/gender_radio_model.dart';
+import 'package:younghappychallenge/register_page/model/input_user_register.dart';
 import 'package:younghappychallenge/register_page/model/profile_image_model.dart';
 import 'package:younghappychallenge/register_page/register_controller.dart';
+import 'package:younghappychallenge/register_page/register_view_event.dart';
 import 'package:younghappychallenge/register_page/widget/country_list.dart';
 import 'package:younghappychallenge/register_page/widget/gender_selector.dart';
 
@@ -33,12 +38,27 @@ class RegisterPage extends BasePage<RegisterController> {
   final _gender = BehaviorSubject<GenderRadioModel>();
   final _birthDate = BehaviorSubject<BirthDateSelectModel>();
 
+  List<StreamSubscription> _subscriptions;
+
   List<CountryEntity> _countriesList = [];
 
   @override
   void onStateInit() async {
     super.onStateInit();
     controller.init();
+
+    _subscriptions = [
+      controller.viewState.listen((BaseViewEvent viewState) {
+        if (viewState is RegisterViewEvent) {
+          final snackBar = SnackBar(content: Text('Register successfully!'));
+          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+
+          Navigator.of(context).pushReplacementNamed(HomePage.routeName);
+
+          controller.setViewState(NormalViewState());
+        }
+      })
+    ];
 
     _countriesList = await controller.requestCountries();
   }
@@ -51,6 +71,7 @@ class RegisterPage extends BasePage<RegisterController> {
     _gender.close();
     _birthDate.close();
 
+    _subscriptions?.forEach((s) => s.cancel());
     controller.dispose();
     super.onDispose();
   }
@@ -125,8 +146,10 @@ class RegisterPage extends BasePage<RegisterController> {
           final stripped =
               encoded.replaceFirst(RegExp(r'data:image/[^;]+;base64,'), '');
 
-          _profilePicture.sink
-              .add(ProfileWebImageModel(base64.decode(stripped)));
+          _profilePicture.sink.add(ProfileWebImageModel(
+            input.files.first,
+            base64.decode(stripped),
+          ));
         });
 
         reader.onError.listen(
@@ -146,6 +169,36 @@ class RegisterPage extends BasePage<RegisterController> {
         controller
             .setViewState(ErrorViewState('Error while retrieve picture.'));
       }
+    }
+  }
+
+  _submitRegisterUser() async {
+    final input = InputUserRegister(
+      _profilePicture.value,
+      _displayName.value,
+      _country.value,
+      _gender.value,
+      _birthDate.value,
+    );
+
+    switch (RegisterChecker(input).isSatisfied()) {
+      case RegisterCheck.DisplayName:
+        controller.setViewState(ErrorViewState('กรุณากรอกชื่อที่ใช้แสดง'));
+        break;
+      case RegisterCheck.Nationality:
+        controller.setViewState(ErrorViewState('กรุณาเลือกสัญชาติของท่าน'));
+        break;
+      case RegisterCheck.Gender:
+        controller.setViewState(ErrorViewState('กรุณาระบุเพศของท่าน'));
+        break;
+      case RegisterCheck.BirthDate:
+        controller.setViewState(ErrorViewState('กรุณาเลือกวันเกิดของท่าน'));
+        break;
+      case RegisterCheck.Pass:
+        {
+          await controller.submitRegister(input);
+          break;
+        }
     }
   }
 
@@ -337,7 +390,7 @@ class RegisterPage extends BasePage<RegisterController> {
                   ),
                   SizedBox(height: 24.0),
                   ElevatedButton(
-                    onPressed: () {},
+                    onPressed: _submitRegisterUser,
                     child: Text('บันทึก'),
                   )
                 ],
